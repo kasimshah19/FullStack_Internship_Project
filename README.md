@@ -1,3 +1,14 @@
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+
+![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
+
+![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)
+
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+
+![EJS](https://img.shields.io/badge/EJS-8BC34A?style=for-the-badge)
+
+
 # 🎓 Student Management System
 
 A modern Student Management System developed using **Node.js**, **Express.js**, **EJS**, **Bootstrap** and **JavaScript**.
