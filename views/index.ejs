@@ -18,8 +18,38 @@
         </div>
     </nav>
 
+    <!-- ✅ Count Cards -->
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card text-white bg-primary shadow mb-4">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">👥 Total Students</h5>
+                        <h2 class="fw-bold"><%= totalStudents %></h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-success shadow mb-4">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">✅ Active Records</h5>
+                        <h2 class="fw-bold"><%= totalStudents %></h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-warning shadow mb-4">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">📋 Last Updated</h5>
+                        <h2 class="fw-bold" style="font-size:1.2rem">Today</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Main Container -->
-    <div class="container mt-5">
+    <div class="container">
 
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -69,7 +99,7 @@
 
                     <div class="card-body">
 
-                        <!-- ✅ Search Bar -->
+                        <!-- Search Bar -->
                         <div class="mb-3">
                             <input
                                 type="text"
@@ -112,7 +142,7 @@
 
     </div>
 
-    <!-- ✅ Search JavaScript -->
+    <!-- Search JavaScript -->
     <script>
         const searchInput = document.getElementById('searchInput');
 

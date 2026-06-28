@@ -11,10 +11,12 @@ app.use(express.static("public"));
 
 let students = [];
 
+// ✅ Updated - Total Students count bhi bheja
 app.get("/", (req, res) => {
     res.render("index", {
         students,
-        error: null
+        error: null,
+        totalStudents: students.length
     });
 });
 
@@ -22,41 +24,37 @@ app.post("/addStudent", (req, res) => {
     const { name, email, mobile } = req.body;
 
     if (!name || name.trim() === "") {
-        return res.render("index", { students, error: "Name is required" });
+        return res.render("index", { students, error: "Name is required", totalStudents: students.length });
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-        return res.render("index", { students, error: "Invalid Email Address" });
+        return res.render("index", { students, error: "Invalid Email Address", totalStudents: students.length });
     }
 
     if (!mobile || !/^\d{10}$/.test(mobile)) {
-        return res.render("index", { students, error: "Mobile number must be exactly 10 digits" });
+        return res.render("index", { students, error: "Mobile number must be exactly 10 digits", totalStudents: students.length });
     }
 
     students.push({ name, email, mobile });
     res.redirect("/");
 });
 
-// ✅ NAYA - Delete Route
+// ✅ Delete Route
 app.post("/deleteStudent", (req, res) => {
     const index = req.body.index;
     students.splice(index, 1);
     res.redirect("/");
 });
 
-app.listen(3000, () => {
-    console.log("Server Running on Port 3000");
-});
-
-// Edit form dikhao
+// ✅ Edit form dikhao
 app.get("/editStudent/:index", (req, res) => {
     const index = req.params.index;
     const student = students[index];
     res.render("edit", { student, index });
 });
 
-// Edit form submit karo
+// ✅ Edit form submit karo
 app.post("/updateStudent/:index", (req, res) => {
     const index = req.params.index;
     const { name, email, mobile } = req.body;
@@ -76,4 +74,8 @@ app.post("/updateStudent/:index", (req, res) => {
 
     students[index] = { name, email, mobile };
     res.redirect("/");
+});
+
+app.listen(3000, () => {
+    console.log("Server Running on Port 3000");
 });
