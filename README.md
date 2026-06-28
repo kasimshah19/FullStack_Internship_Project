@@ -105,29 +105,19 @@ node server.js
 
 ---
 
-### ✅ Form Validation
-
-![Validation](assets/screenshots/validation.png)
-
----
-
-### 🎨 Bootstrap Responsive Design
-
-![Bootstrap](assets/screenshots/bootstrap.png)
-
----
-
 ### ⚡ DOM Manipulation
 
 ![DOM](assets/screenshots/dom.png)
-![DOM](assets/screenshots/dom2.png)
+
+![DOM 2](assets/screenshots/dom2.png)
 
 ---
 
 ### 🌐 API Integration
 
 ![API](assets/screenshots/api.png)
-![API](assets/screenshots/api2.png)
+
+![API 2](assets/screenshots/api2.png)
 
 # 🌐 Live Demo
 
