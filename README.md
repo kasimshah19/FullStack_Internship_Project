@@ -129,7 +129,7 @@ node server.js
 ![API 2](assets/screenshots/api2.png)
 
 ## 🚀 Live Demo
-[Click here to view live](https://fullstack-internship-621z.onrender.com)
+[Click here to view live](https://fullstack-internship-project-621z.onrender.com)
 
 ---
 
