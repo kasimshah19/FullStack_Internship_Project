@@ -97,13 +97,37 @@ node server.js
 
 ---
 
-# 📷 Screenshots
+## 📸 Project Screenshots
 
-Project Screenshots
+### 🏠 Home Page
 
-(Add screenshots here)
+![Home](assets/screenshots/home.png)
 
 ---
+
+### ✅ Form Validation
+
+![Validation](assets/screenshots/validation.png)
+
+---
+
+### 🎨 Bootstrap Responsive Design
+
+![Bootstrap](assets/screenshots/bootstrap.png)
+
+---
+
+### ⚡ DOM Manipulation
+
+![DOM](assets/screenshots/dom.png)
+![DOM](assets/screenshots/dom2.png)
+
+---
+
+### 🌐 API Integration
+
+![API](assets/screenshots/api.png)
+![API](assets/screenshots/api2.png)
 
 # 🌐 Live Demo
 
@@ -135,4 +159,4 @@ https://github.com/kasimshah19
 
 # ⭐ If you like this project
 
-Give this repository a ⭐ on GitHub.
+Give this repository a ⭐ on GitHub. 
