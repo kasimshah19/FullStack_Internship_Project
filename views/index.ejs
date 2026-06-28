@@ -120,30 +120,30 @@
 
                             <thead class="table-dark">
 
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Mobile</th>
-                                </tr>
+                               <tr>
+                                     <th>Name</th>
+                                          <th>Email</th>
+                                           <th>Mobile</th>
+                                                    <th>Action</th>
+                                                          </tr>
 
                             </thead>
 
                             <tbody>
 
-                                <% students.forEach(student => { %>
+                               <% students.forEach((student, index) => { %>
 
-                                    <tr>
-
-                                        <td><%= student.name %></td>
-
-                                        <td><%= student.email %></td>
-
-                                        <td><%= student.mobile %></td>
-
-                                    </tr>
-
-                                <% }) %>
-
+                                   <tr>
+                                          <td><%= student.name %></td>
+                                                 <td><%= student.email %></td>
+                                                 <td><%= student.mobile %></td>
+                                                            <td>
+                                              <form action="/deleteStudent" method="POST">
+                                                   <input type="hidden" name="index" value="<%= index %>">
+           <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    </form>
+                                               </td>
+                                                      </tr>
                             </tbody>
 
                         </table>
