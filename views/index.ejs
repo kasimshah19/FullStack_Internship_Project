@@ -135,12 +135,13 @@
             <td><%= student.name %></td>
             <td><%= student.email %></td>
             <td><%= student.mobile %></td>
-            <td>
-                <form action="/deleteStudent" method="POST">
-                    <input type="hidden" name="index" value="<%= index %>">
-                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                </form>
-            </td>
+           <td>
+    <a href="/editStudent/<%= index %>" class="btn btn-warning btn-sm">Edit</a>
+    <form action="/deleteStudent" method="POST" style="display:inline">
+        <input type="hidden" name="index" value="<%= index %>">
+        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+    </form>
+</td>
         </tr>
     <% }) %>
 </tbody>

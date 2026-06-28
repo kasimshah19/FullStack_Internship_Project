@@ -48,3 +48,32 @@ app.post("/deleteStudent", (req, res) => {
 app.listen(3000, () => {
     console.log("Server Running on Port 3000");
 });
+
+// Edit form dikhao
+app.get("/editStudent/:index", (req, res) => {
+    const index = req.params.index;
+    const student = students[index];
+    res.render("edit", { student, index });
+});
+
+// Edit form submit karo
+app.post("/updateStudent/:index", (req, res) => {
+    const index = req.params.index;
+    const { name, email, mobile } = req.body;
+
+    if (!name || name.trim() === "") {
+        return res.render("edit", { student: req.body, index, error: "Name is required" });
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        return res.render("edit", { student: req.body, index, error: "Invalid Email" });
+    }
+
+    if (!mobile || !/^\d{10}$/.test(mobile)) {
+        return res.render("edit", { student: req.body, index, error: "Mobile must be 10 digits" });
+    }
+
+    students[index] = { name, email, mobile };
+    res.redirect("/");
+});
