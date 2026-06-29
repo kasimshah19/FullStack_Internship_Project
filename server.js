@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const session = require("express-session");
+const nodemailer = require("nodemailer");
 
 console.log("SERVER FILE LOADED");
 
@@ -24,12 +25,23 @@ mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log("MongoDB Connected ✅"))
 .catch(err => console.log("MongoDB Error:", err));
 
+// ✅ Nodemailer Setup (Gmail)
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
+
 // ✅ User Schema
 const userSchema = new mongoose.Schema({
     name: String,
     email: String,
     password: String,
-    role: { type: String, enum: ["admin", "staff"], default: "staff" }
+    role: { type: String, enum: ["admin", "staff"], default: "staff" },
+    resetOtp: String,
+    resetOtpExpiry: Date
 });
 const User = mongoose.model("User", userSchema);
 
@@ -117,6 +129,98 @@ app.post("/login", async (req, res) => {
 // ✅ Logout
 app.get("/logout", (req, res) => {
     req.session.destroy();
+    res.redirect("/login");
+});
+
+// ✅ Forgot Password — Show Email Form
+app.get("/forgot-password", (req, res) => {
+    res.render("forgot-password", { error: null, message: null });
+});
+
+// ✅ Forgot Password — Generate & Send OTP
+app.post("/forgot-password", async (req, res) => {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+        return res.render("forgot-password", { error: "No account found with this email!", message: null });
+    }
+
+    // 6-digit OTP generate karo
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    // ✅ OTP expiry — 10 minutes
+    const expiry = new Date(Date.now() + 10 * 60 * 1000);
+
+    user.resetOtp = otp;
+    user.resetOtpExpiry = expiry;
+    await user.save();
+
+    try {
+        await transporter.sendMail({
+            from: `"Student Management System" <${process.env.EMAIL_USER}>`,
+            to: user.email,
+            subject: "Password Reset OTP",
+            html: `
+                <h3>Password Reset Request</h3>
+                <p>Hi ${user.name},</p>
+                <p>Your OTP to reset your password is:</p>
+                <h2 style="color:#0d6efd;">${otp}</h2>
+                <p>This OTP is valid for <b>10 minutes</b>.</p>
+                <p>If you did not request this, please ignore this email.</p>
+            `
+        });
+    } catch (err) {
+        console.log("Email Error:", err);
+        return res.render("forgot-password", { error: "Failed to send OTP. Try again later.", message: null });
+    }
+
+    // ✅ Next page pe email ko query se pass karo
+    res.redirect(`/verify-otp?email=${encodeURIComponent(email)}`);
+});
+
+// ✅ Verify OTP — Show Form
+app.get("/verify-otp", (req, res) => {
+    const { email } = req.query;
+    if (!email) return res.redirect("/forgot-password");
+    res.render("verify-otp", { email, error: null });
+});
+
+// ✅ Verify OTP — Check & Reset Password
+app.post("/verify-otp", async (req, res) => {
+    const { email, otp, newPassword, confirmPassword } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+        return res.render("verify-otp", { email, error: "User not found!" });
+    }
+
+    if (!user.resetOtp || !user.resetOtpExpiry) {
+        return res.render("verify-otp", { email, error: "No OTP request found. Please try again." });
+    }
+
+    if (user.resetOtp !== otp) {
+        return res.render("verify-otp", { email, error: "Invalid OTP!" });
+    }
+
+    if (user.resetOtpExpiry < new Date()) {
+        return res.render("verify-otp", { email, error: "OTP expired! Please request a new one." });
+    }
+
+    if (!newPassword || newPassword.length < 6) {
+        return res.render("verify-otp", { email, error: "Password must be at least 6 characters." });
+    }
+
+    if (newPassword !== confirmPassword) {
+        return res.render("verify-otp", { email, error: "Passwords do not match!" });
+    }
+
+    // ✅ Password update karo aur OTP clear karo
+    user.password = await bcrypt.hash(newPassword, 10);
+    user.resetOtp = undefined;
+    user.resetOtpExpiry = undefined;
+    await user.save();
+
     res.redirect("/login");
 });
 
