@@ -124,14 +124,16 @@ app.post("/addStudent", isLoggedIn, async (req, res) => {
         return res.render("index", { students, error: "Mobile number must be exactly 10 digits", totalStudents: students.length, user: req.session.user });
     }
 
+    // ✅ Toast - Added
     await Student.create({ name, email, mobile });
-    res.redirect("/");
+    res.redirect("/?success=added");
 });
 
 // ✅ Delete Student
 app.post("/deleteStudent", isLoggedIn, async (req, res) => {
     await Student.findByIdAndDelete(req.body.id);
-    res.redirect("/");
+    // ✅ Toast - Deleted
+    res.redirect("/?success=deleted");
 });
 
 // ✅ Export to CSV
@@ -174,8 +176,9 @@ app.post("/updateStudent/:id", isLoggedIn, async (req, res) => {
         return res.render("edit", { student, error: "Mobile must be 10 digits" });
     }
 
+    // ✅ Toast - Updated
     await Student.findByIdAndUpdate(req.params.id, { name, email, mobile });
-    res.redirect("/");
+    res.redirect("/?success=updated");
 });
 
 app.listen(3000, () => {
