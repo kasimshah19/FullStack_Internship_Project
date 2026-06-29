@@ -25,9 +25,12 @@ mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log("MongoDB Connected ✅"))
 .catch(err => console.log("MongoDB Error:", err));
 
-// ✅ Nodemailer Setup (Gmail)
+// ✅ Nodemailer Setup (Gmail via SMTP — IPv4 forced to avoid Render IPv6 issues)
 const transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    family: 4,
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
@@ -171,7 +174,7 @@ app.post("/forgot-password", async (req, res) => {
             `
         });
     } catch (err) {
-        console.log("Email Error:", err);
+        console.log("Email Error:", err.message);
         return res.render("forgot-password", { error: "Failed to send OTP. Try again later.", message: null });
     }
 
