@@ -13,7 +13,7 @@
             <div class="col-md-5">
                 <div class="card shadow-lg">
                     <div class="card-header bg-success text-white text-center">
-                        <h3>📝 Signup</h3>
+                        <h3>📝 Sign Up</h3>
                     </div>
                     <div class="card-body">
 
@@ -32,13 +32,18 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Password</label>
-                                <input type="password" name="password" class="form-control" placeholder="Enter Password" required>
+                                <div class="input-group">
+                                    <input type="password" name="password" id="signupPassword" class="form-control" placeholder="Enter Password" required>
+                                    <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('signupPassword', 'signupEye')">
+                                        <span id="signupEye">👁️</span>
+                                    </button>
+                                </div>
                             </div>
-                            <button type="submit" class="btn btn-success w-100">Signup</button>
+                            <button type="submit" class="btn btn-success w-100">Sign Up</button>
                         </form>
 
                         <div class="text-center mt-3">
-                            <p>Already account hai? <a href="/login">Login karo</a></p>
+                            <p>Already have an account? <a href="/login">Login</a></p>
                         </div>
 
                     </div>
@@ -46,6 +51,20 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function togglePassword(inputId, eyeId) {
+            const input = document.getElementById(inputId);
+            const eye = document.getElementById(eyeId);
+            if (input.type === "password") {
+                input.type = "text";
+                eye.textContent = "🙈";
+            } else {
+                input.type = "password";
+                eye.textContent = "👁️";
+            }
+        }
+    </script>
 
 </body>
 </html>

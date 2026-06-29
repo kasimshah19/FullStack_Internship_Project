@@ -28,13 +28,18 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Password</label>
-                                <input type="password" name="password" class="form-control" placeholder="Enter Password" required>
+                                <div class="input-group">
+                                    <input type="password" name="password" id="loginPassword" class="form-control" placeholder="Enter Password" required>
+                                    <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('loginPassword', 'loginEye')">
+                                        <span id="loginEye">👁️</span>
+                                    </button>
+                                </div>
                             </div>
                             <button type="submit" class="btn btn-primary w-100">Login</button>
                         </form>
 
                         <div class="text-center mt-3">
-                            <p>Account nahi hai? <a href="/signup">Signup karo</a></p>
+                            <p>Don't have an account? <a href="/signup">Sign Up</a></p>
                         </div>
 
                     </div>
@@ -42,6 +47,20 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function togglePassword(inputId, eyeId) {
+            const input = document.getElementById(inputId);
+            const eye = document.getElementById(eyeId);
+            if (input.type === "password") {
+                input.type = "text";
+                eye.textContent = "🙈";
+            } else {
+                input.type = "password";
+                eye.textContent = "👁️";
+            }
+        }
+    </script>
 
 </body>
 </html>
