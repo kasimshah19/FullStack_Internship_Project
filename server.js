@@ -14,7 +14,7 @@ app.use(express.static("public"));
 
 // ✅ Session Setup
 app.use(session({
-    secret: "studentapp123",
+    secret: process.env.SESSION_SECRET || "studentapp123",
     resave: false,
     saveUninitialized: false
 }));
