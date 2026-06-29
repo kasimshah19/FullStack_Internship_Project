@@ -62,6 +62,21 @@ app.post("/deleteStudent", async (req, res) => {
     res.redirect("/");
 });
 
+// ✅ Export to CSV
+app.get("/exportCSV", async (req, res) => {
+    const students = await Student.find();
+
+    let csv = "Name,Email,Mobile\n";
+
+    students.forEach(student => {
+        csv += `${student.name},${student.email},${student.mobile}\n`;
+    });
+
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader("Content-Disposition", "attachment; filename=students.csv");
+    res.send(csv);
+});
+
 // ✅ Edit Form
 app.get("/editStudent/:id", async (req, res) => {
     const student = await Student.findById(req.params.id);
