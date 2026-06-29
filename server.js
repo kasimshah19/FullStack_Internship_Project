@@ -1,18 +1,32 @@
 const express = require("express");
-console.log("SERVER FILE LOADED");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+
+console.log("SERVER FILE LOADED");
 
 const app = express();
 
 app.set("view engine", "ejs");
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-let students = [];
+// ✅ MongoDB Connect
+mongoose.connect("mongodb+srv://kasimshah998_db_user:nxond6BjjpoNxu5C@cluster0.pchtcbw.mongodb.net/studentDB?appName=Cluster0")
+.then(() => console.log("MongoDB Connected ✅"))
+.catch(err => console.log("MongoDB Error:", err));
 
-// ✅ Updated - Total Students count bhi bheja
-app.get("/", (req, res) => {
+// ✅ Student Schema
+const studentSchema = new mongoose.Schema({
+    name: String,
+    email: String,
+    mobile: String
+});
+
+const Student = mongoose.model("Student", studentSchema);
+
+// ✅ Home Route
+app.get("/", async (req, res) => {
+    const students = await Student.find();
     res.render("index", {
         students,
         error: null,
@@ -20,8 +34,10 @@ app.get("/", (req, res) => {
     });
 });
 
-app.post("/addStudent", (req, res) => {
+// ✅ Add Student
+app.post("/addStudent", async (req, res) => {
     const { name, email, mobile } = req.body;
+    const students = await Student.find();
 
     if (!name || name.trim() === "") {
         return res.render("index", { students, error: "Name is required", totalStudents: students.length });
@@ -36,43 +52,43 @@ app.post("/addStudent", (req, res) => {
         return res.render("index", { students, error: "Mobile number must be exactly 10 digits", totalStudents: students.length });
     }
 
-    students.push({ name, email, mobile });
+    await Student.create({ name, email, mobile });
     res.redirect("/");
 });
 
-// ✅ Delete Route
-app.post("/deleteStudent", (req, res) => {
-    const index = req.body.index;
-    students.splice(index, 1);
+// ✅ Delete Student
+app.post("/deleteStudent", async (req, res) => {
+    await Student.findByIdAndDelete(req.body.id);
     res.redirect("/");
 });
 
-// ✅ Edit form dikhao
-app.get("/editStudent/:index", (req, res) => {
-    const index = req.params.index;
-    const student = students[index];
-    res.render("edit", { student, index });
+// ✅ Edit Form
+app.get("/editStudent/:id", async (req, res) => {
+    const student = await Student.findById(req.params.id);
+    res.render("edit", { student, error: null });
 });
 
-// ✅ Edit form submit karo
-app.post("/updateStudent/:index", (req, res) => {
-    const index = req.params.index;
+// ✅ Update Student
+app.post("/updateStudent/:id", async (req, res) => {
     const { name, email, mobile } = req.body;
 
     if (!name || name.trim() === "") {
-        return res.render("edit", { student: req.body, index, error: "Name is required" });
+        const student = await Student.findById(req.params.id);
+        return res.render("edit", { student, error: "Name is required" });
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-        return res.render("edit", { student: req.body, index, error: "Invalid Email" });
+        const student = await Student.findById(req.params.id);
+        return res.render("edit", { student, error: "Invalid Email" });
     }
 
     if (!mobile || !/^\d{10}$/.test(mobile)) {
-        return res.render("edit", { student: req.body, index, error: "Mobile must be 10 digits" });
+        const student = await Student.findById(req.params.id);
+        return res.render("edit", { student, error: "Mobile must be 10 digits" });
     }
 
-    students[index] = { name, email, mobile };
+    await Student.findByIdAndUpdate(req.params.id, { name, email, mobile });
     res.redirect("/");
 });
 
