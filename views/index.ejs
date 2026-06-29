@@ -36,7 +36,7 @@
                 Student Management System
             </a>
             <div class="ms-auto d-flex align-items-center gap-2">
-                <span class="text-white me-2">👤 <%= user.name %></span>
+                <span class="text-white me-2">👤 <%= user.name %> <span class="badge <%= user.role === 'admin' ? 'bg-danger' : 'bg-secondary' %>"><%= user.role %></span></span>
                 <button id="themeToggle" class="btn btn-light btn-sm" onclick="toggleTheme()">🌙 Dark</button>
                 <a href="/logout" class="btn btn-outline-light btn-sm">Logout</a>
             </div>
@@ -76,6 +76,7 @@
     <!-- Main Container -->
     <div class="container">
 
+        <% if (user.role === 'admin') { %>
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card shadow-lg">
@@ -116,6 +117,7 @@
                 </div>
             </div>
         </div>
+        <% } %>
 
         <!-- Student List -->
         <div class="row mt-5">
@@ -168,7 +170,7 @@
                                     <th>Email</th>
                                     <th>Mobile</th>
                                     <th>DOB</th>
-                                    <th>Action</th>
+                                    <% if (user.role === 'admin') { %><th>Action</th><% } %>
                                 </tr>
                             </thead>
                             <tbody>
@@ -179,6 +181,7 @@
                                         <td><%= student.email %></td>
                                         <td><%= student.mobile %></td>
                                         <td><%= student.dob || '-' %></td>
+                                        <% if (user.role === 'admin') { %>
                                         <td>
                                             <a href="/editStudent/<%= student._id %>" class="btn btn-warning btn-sm">Edit</a>
                                             <form action="/deleteStudent" method="POST" style="display:inline" onsubmit="return confirmDelete()">
@@ -186,6 +189,7 @@
                                                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                             </form>
                                         </td>
+                                        <% } %>
                                     </tr>
                                 <% }) %>
                             </tbody>

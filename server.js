@@ -28,7 +28,8 @@ mongoose.connect(process.env.MONGO_URI)
 const userSchema = new mongoose.Schema({
     name: String,
     email: String,
-    password: String
+    password: String,
+    role: { type: String, enum: ["admin", "staff"], default: "staff" }
 });
 const User = mongoose.model("User", userSchema);
 
@@ -50,6 +51,15 @@ function isLoggedIn(req, res, next) {
     }
 }
 
+// ✅ Middleware — Admin Only Check
+function isAdmin(req, res, next) {
+    if (req.session.user && req.session.user.role === "admin") {
+        next();
+    } else {
+        res.status(403).send("⛔ Access Denied — Admins only. <a href='/'>Go Back</a>");
+    }
+}
+
 // ✅ Home Route — Protected
 app.get("/", isLoggedIn, async (req, res) => {
     const students = await Student.find();
@@ -67,15 +77,18 @@ app.get("/signup", (req, res) => {
 });
 
 app.post("/signup", async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
         return res.render("signup", { error: "Email already registered!" });
     }
 
+    const allowedRoles = ["admin", "staff"];
+    const finalRole = allowedRoles.includes(role) ? role : "staff";
+
     const hashedPassword = await bcrypt.hash(password, 10);
-    await User.create({ name, email, password: hashedPassword });
+    await User.create({ name, email, password: hashedPassword, role: finalRole });
     res.redirect("/login");
 });
 
@@ -97,7 +110,7 @@ app.post("/login", async (req, res) => {
         return res.render("login", { error: "Wrong password!" });
     }
 
-    req.session.user = { name: user.name, email: user.email };
+    req.session.user = { name: user.name, email: user.email, role: user.role };
     res.redirect("/");
 });
 
@@ -108,7 +121,7 @@ app.get("/logout", (req, res) => {
 });
 
 // ✅ Add Student
-app.post("/addStudent", isLoggedIn, async (req, res) => {
+app.post("/addStudent", isLoggedIn, isAdmin, async (req, res) => {
     const { name, email, mobile, dob } = req.body;
     const students = await Student.find();
 
@@ -135,7 +148,7 @@ app.post("/addStudent", isLoggedIn, async (req, res) => {
 });
 
 // ✅ Delete Student
-app.post("/deleteStudent", isLoggedIn, async (req, res) => {
+app.post("/deleteStudent", isLoggedIn, isAdmin, async (req, res) => {
     await Student.findByIdAndDelete(req.body.id);
     // ✅ Toast - Deleted
     res.redirect("/?success=deleted");
@@ -156,13 +169,13 @@ app.get("/exportCSV", isLoggedIn, async (req, res) => {
 });
 
 // ✅ Edit Form
-app.get("/editStudent/:id", isLoggedIn, async (req, res) => {
+app.get("/editStudent/:id", isLoggedIn, isAdmin, async (req, res) => {
     const student = await Student.findById(req.params.id);
     res.render("edit", { student, error: null });
 });
 
 // ✅ Update Student
-app.post("/updateStudent/:id", isLoggedIn, async (req, res) => {
+app.post("/updateStudent/:id", isLoggedIn, isAdmin, async (req, res) => {
     const { name, email, mobile, dob } = req.body;
 
     if (!name || name.trim() === "") {
