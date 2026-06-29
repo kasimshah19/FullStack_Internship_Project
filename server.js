@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 // ✅ MongoDB Connect
-mongoose.connect("mongodb+srv://kasimshah998_db_user:Kasim2003@cluster0.pchtcbw.mongodb.net/studentDB?appName=Cluster0")
+mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log("MongoDB Connected ✅"))
 .catch(err => console.log("MongoDB Error:", err));
 
