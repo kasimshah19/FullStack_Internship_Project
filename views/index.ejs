@@ -103,6 +103,10 @@
                                 <label class="form-label">Mobile</label>
                                 <input type="text" name="mobile" class="form-control" placeholder="Enter Mobile Number" pattern="[0-9]{10}" maxlength="10" required>
                             </div>
+                            <div class="mb-3">
+                                <label class="form-label">Date of Birth</label>
+                                <input type="date" name="dob" class="form-control" required>
+                            </div>
                             <button type="submit" class="btn btn-primary w-100">
                                 Add Student
                             </button>
@@ -163,6 +167,7 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Mobile</th>
+                                    <th>DOB</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -173,6 +178,7 @@
                                         <td><%= student.name %></td>
                                         <td><%= student.email %></td>
                                         <td><%= student.mobile %></td>
+                                        <td><%= student.dob || '-' %></td>
                                         <td>
                                             <a href="/editStudent/<%= student._id %>" class="btn btn-warning btn-sm">Edit</a>
                                             <form action="/deleteStudent" method="POST" style="display:inline" onsubmit="return confirmDelete()">
@@ -238,12 +244,14 @@
                 const name = row.cells[1].textContent;
                 const email = row.cells[2].textContent;
                 const mobile = row.cells[3].textContent;
+                const dob = row.cells[4].textContent;
                 tableRows += `
                     <tr>
                         <td>${i + 1}</td>
                         <td>${name}</td>
                         <td>${email}</td>
                         <td>${mobile}</td>
+                        <td>${dob}</td>
                     </tr>
                 `;
             });
@@ -270,7 +278,7 @@
                     <p>Printed by: <%= user.name %> &nbsp;|&nbsp; Date: ${new Date().toLocaleDateString('en-IN', {day:'2-digit', month:'long', year:'numeric'})}</p>
                     <table>
                         <thead>
-                            <tr><th>S.No</th><th>Name</th><th>Email</th><th>Mobile</th></tr>
+                            <tr><th>S.No</th><th>Name</th><th>Email</th><th>Mobile</th><th>DOB</th></tr>
                         </thead>
                         <tbody>${tableRows}</tbody>
                     </table>

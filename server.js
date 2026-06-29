@@ -36,7 +36,8 @@ const User = mongoose.model("User", userSchema);
 const studentSchema = new mongoose.Schema({
     name: String,
     email: String,
-    mobile: String
+    mobile: String,
+    dob: String
 });
 const Student = mongoose.model("Student", studentSchema);
 
@@ -108,7 +109,7 @@ app.get("/logout", (req, res) => {
 
 // ✅ Add Student
 app.post("/addStudent", isLoggedIn, async (req, res) => {
-    const { name, email, mobile } = req.body;
+    const { name, email, mobile, dob } = req.body;
     const students = await Student.find();
 
     if (!name || name.trim() === "") {
@@ -124,8 +125,12 @@ app.post("/addStudent", isLoggedIn, async (req, res) => {
         return res.render("index", { students, error: "Mobile number must be exactly 10 digits", totalStudents: students.length, user: req.session.user });
     }
 
+    if (!dob || dob.trim() === "") {
+        return res.render("index", { students, error: "Date of birth is required", totalStudents: students.length, user: req.session.user });
+    }
+
     // ✅ Toast - Added
-    await Student.create({ name, email, mobile });
+    await Student.create({ name, email, mobile, dob });
     res.redirect("/?success=added");
 });
 
@@ -140,9 +145,9 @@ app.post("/deleteStudent", isLoggedIn, async (req, res) => {
 app.get("/exportCSV", isLoggedIn, async (req, res) => {
     const students = await Student.find();
 
-    let csv = "Name,Email,Mobile\n";
+    let csv = "Name,Email,Mobile,DOB\n";
     students.forEach(student => {
-        csv += `${student.name},${student.email},${student.mobile}\n`;
+        csv += `${student.name},${student.email},${student.mobile},${student.dob || ""}\n`;
     });
 
     res.setHeader("Content-Type", "text/csv");
@@ -158,7 +163,7 @@ app.get("/editStudent/:id", isLoggedIn, async (req, res) => {
 
 // ✅ Update Student
 app.post("/updateStudent/:id", isLoggedIn, async (req, res) => {
-    const { name, email, mobile } = req.body;
+    const { name, email, mobile, dob } = req.body;
 
     if (!name || name.trim() === "") {
         const student = await Student.findById(req.params.id);
@@ -176,8 +181,13 @@ app.post("/updateStudent/:id", isLoggedIn, async (req, res) => {
         return res.render("edit", { student, error: "Mobile must be 10 digits" });
     }
 
+    if (!dob || dob.trim() === "") {
+        const student = await Student.findById(req.params.id);
+        return res.render("edit", { student, error: "Date of birth is required" });
+    }
+
     // ✅ Toast - Updated
-    await Student.findByIdAndUpdate(req.params.id, { name, email, mobile });
+    await Student.findByIdAndUpdate(req.params.id, { name, email, mobile, dob });
     res.redirect("/?success=updated");
 });
 
