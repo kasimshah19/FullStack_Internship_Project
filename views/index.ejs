@@ -29,15 +29,17 @@
         </div>
     </div>
 
-    <!-- ✅ Navbar -->
+    <!-- ✅ Navbar with Dark/Light Toggle -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
             <a class="navbar-brand fw-bold" href="#">
                 Student Management System
             </a>
-            <div class="ms-auto">
-                <span class="text-white me-3">👤 <%= user.name %></span>
-                <a href="/logout" class="btn btn-light btn-sm">Logout</a>
+            <div class="ms-auto d-flex align-items-center gap-2">
+                <span class="text-white me-2">👤 <%= user.name %></span>
+                <!-- ✅ Dark/Light Toggle -->
+                <button id="themeToggle" class="btn btn-light btn-sm" onclick="toggleTheme()">🌙 Dark</button>
+                <a href="/logout" class="btn btn-outline-light btn-sm">Logout</a>
             </div>
         </div>
     </nav>
@@ -117,7 +119,6 @@
             <div class="col-md-12">
                 <div class="card shadow">
 
-                    <!-- ✅ Export CSV Button -->
                     <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
                         <h4 class="mb-0">Student List</h4>
                         <a href="/exportCSV" class="btn btn-light btn-sm fw-bold">
@@ -139,7 +140,6 @@
                         <table class="table table-bordered table-striped">
                             <thead class="table-dark">
                                 <tr>
-                                    <!-- ✅ S.No -->
                                     <th>S.No</th>
                                     <th>Name</th>
                                     <th>Email</th>
@@ -226,6 +226,51 @@
             const toast = new bootstrap.Toast(document.getElementById('successToast'));
             toast.show();
         }
+
+        // ✅ Dark/Light Mode
+        function toggleTheme() {
+            const body = document.body;
+            const btn = document.getElementById('themeToggle');
+            const navbar = document.querySelector('.navbar');
+            const cards = document.querySelectorAll('.card');
+
+            body.classList.toggle('dark-mode');
+
+            if (body.classList.contains('dark-mode')) {
+                btn.textContent = '☀️ Light';
+                body.style.backgroundColor = '#1a1a2e';
+                body.style.color = '#ffffff';
+                navbar.classList.remove('bg-primary');
+                navbar.classList.add('bg-dark');
+                cards.forEach(card => {
+                    if (!card.classList.contains('bg-primary') &&
+                        !card.classList.contains('bg-success') &&
+                        !card.classList.contains('bg-warning')) {
+                        card.style.backgroundColor = '#16213e';
+                        card.style.color = '#ffffff';
+                    }
+                });
+                localStorage.setItem('theme', 'dark');
+            } else {
+                btn.textContent = '🌙 Dark';
+                body.style.backgroundColor = '';
+                body.style.color = '';
+                navbar.classList.remove('bg-dark');
+                navbar.classList.add('bg-primary');
+                cards.forEach(card => {
+                    card.style.backgroundColor = '';
+                    card.style.color = '';
+                });
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // ✅ Theme yaad rakho
+        window.addEventListener('load', function() {
+            if (localStorage.getItem('theme') === 'dark') {
+                toggleTheme();
+            }
+        });
     </script>
 
 </body>
