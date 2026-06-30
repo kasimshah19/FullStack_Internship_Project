@@ -2,178 +2,159 @@
   <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" />
   <img src="https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white" />
   <img src="https://img.shields.io/badge/EJS-B4CA65?style=for-the-badge&logo=ejs&logoColor=black" />
-  <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" />
   <img src="https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white" />
   <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
 </p>
-<h1 align="center">Student Management System</h1>
-<p align="center">
-A modern, full-stack Student Management System built with Node.js, Express.js, EJS, MongoDB, Bootstrap and JavaScript.
-</p>
-<p align="center">
-Developed during my Full Stack Development Internship and later extended into a complete, production-style CRUD application with authentication, a persistent database, and several professional UI/UX enhancements.
-</p>
-<p align="center">
-  <a href="https://fullstack-internship-project-621z.onrender.com">Live Demo</a>
-</p>
-<br>
-Table of Contents
 
 
-Features
-Technologies Used
-Project Structure
-Installation
-Screenshots
-Live Demo
-Future Improvements
-Author
+# 🎓 Student Management System
 
+A modern Student Management System developed using **Node.js**, **Express.js**, **EJS**, **Bootstrap** and **JavaScript**.
 
-<br>
-Features
+This project was developed during my **Full Stack Development Internship**.
 
-Core Functionality
+---
 
+# 🚀 Features
 
-Student Registration with Name, Email, Mobile and Date of Birth
-Server-side validation for Name, Email and Mobile
-Edit and update student records
-Delete student records, with a confirmation dialog
-Search students by Name, Email or Mobile
-Export the student list to CSV
-Print the student list
+- Student Registration
+- Name Validation
+- Email Validation
+- Mobile Validation
+- Responsive Bootstrap UI
+- Dynamic DOM Manipulation
+- API Integration
+- Student List
+- Clean Interface
+- Easy to Use
 
+---
 
-Authentication
+# 🛠 Technologies Used
 
+- HTML5
+- CSS3
+- Bootstrap 5
+- JavaScript
+- Node.js
+- Express.js
+- EJS
 
-Signup with hashed passwords using bcrypt
-Login with session-based authentication
-Protected routes, so only logged-in users can access the dashboard
-Logout functionality
-Show and hide password toggle on the Login and Signup forms
+---
 
+# 📂 Project Structure
 
-Database
-
-
-MongoDB Atlas cloud database integration via Mongoose
-Persistent storage, so records are not lost on server restart
-
-
-UI and UX
-
-
-Fully responsive Bootstrap 5 UI
-Dashboard summary cards for Total Students, Active Records and Last Updated
-Toast notifications for Add, Update and Delete actions
-Confirmation dialog before deleting a student
-Serial number column in the student table
-Pagination with adjustable rows per page
-Dark and Light mode toggle, with the preference saved in the browser
-Professional footer
-Clean, modern interface
-
-
-<br>
-Technologies Used
-
-FrontendBackendDatabaseToolsHTML5Node.jsMongoDB AtlasbcryptjsCSS3Express.jsMongooseexpress-sessionBootstrap 5EJS Template EngineGit and GitHubJavaScriptRender (Deployment)
-
-<br>
-Project Structure
-
+```
 FullStack_Internship_Project
-├── server.js
-├── package.json
-├── package-lock.json
-├── views
-│   ├── login.ejs
-│   ├── signup.ejs
-│   ├── index.ejs
-│   └── edit.ejs
-├── public
+
+│
+
+├── Task1_2_3
+
+│ ├── server.js
+
+│ ├── package.json
+
+│ ├── views
+
+│ └── public
+
+│
+
+├── Task4
+
+│ └── index.html
+
+│
+
+├── Task5
+
+│ └── index.html
+
+│
+
 └── README.md
+```
 
-<br>
-Installation
+---
 
-Clone the repository.
+# ⚙ Installation
 
-bashgit clone https://github.com/kasimshah19/FullStack_Internship_Project.git
+Clone Repository
 
-Move into the project folder.
+```bash
+git clone https://github.com/kasimshah19/FullStack_Internship_Project.git
+```
 
-bashcd FullStack_Internship_Project
+Go inside folder
 
-Install dependencies.
+```bash
+cd FullStack_Internship_Project
+```
 
-bashnpm install
+Install Packages
 
-Create a .env file, or set environment variables, with the following.
+```bash
+npm install
+```
 
-MONGO_URI=your_mongodb_atlas_connection_string
-SESSION_SECRET=your_session_secret
+Run Project
 
-Run the project.
+```bash
+node server.js
+```
 
-bashnode server.js
+---
 
-The app will be available at http://localhost:3000.
+## 📸 Project Screenshots
 
-<br>
-Project Screenshots
+### 🏠 Home Page
 
-Login and Signup
+![Home](assets/screenshots/home.png)
 
-Show Image
+---
 
-Dashboard
+### ⚡ DOM Manipulation
 
-Show Image
+![DOM](assets/screenshots/dom.png)
 
-Student Management
+![DOM 2](assets/screenshots/dom2.png)
 
-Show Image
+---
 
-Show Image
+### 🌐 API Integration
 
-API Integration
+![API](assets/screenshots/api.png)
 
-Show Image
+![API 2](assets/screenshots/api2.png)
 
-Show Image
+## 🚀 Live Demo
+[Click here to view live](https://fullstack-internship-project-621z.onrender.com)
 
-<br>
-Live Demo
+---
 
-Click here to view the live project
+# 🎯 Future Improvements
 
-The app is hosted on Render's free tier, so the first request after a period of inactivity may take 30 to 50 seconds to respond while the server spins back up.
+- MongoDB Database
+- Login System
+- Authentication
+- Admin Dashboard
+- Delete Student
+- Update Student
+- Search Student
 
-<br>
-Future Improvements
+---
 
-
-OTP-based email or mobile verification during signup
-Role-based access for Admin and Student
-Forgot Password and Reset Password flow
-Profile photo upload for students
-Admin analytics dashboard with charts
-Class or Batch grouping for students
-Bulk import of students via CSV or Excel
-Unit and integration testing
-
-
-<br>
-Author
+# 👨‍💻 Author
 
 Kasim Shah
 
-B.Tech Computer Engineering
+GitHub
 
-GitHub Profile
+https://github.com/kasimshah19
 
-<br>
-<p align="center">If you like this project, give this repository a star on GitHub.</p>
+---
+
+# ⭐ If you like this project
+
+Give this repository a ⭐ on GitHub. 
