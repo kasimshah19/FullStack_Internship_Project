@@ -15,18 +15,55 @@ This project was developed during my **Full Stack Development Internship**.
 
 ---
 
-# 🚀 Features
+- Table of Contents
 
-- Student Registration
-- Name Validation
-- Email Validation
-- Mobile Validation
-- Responsive Bootstrap UI
-- Dynamic DOM Manipulation
-- API Integration
-- Student List
-- Clean Interface
-- Easy to Use
+Features
+Technologies Used
+Project Structure
+Installation
+Screenshots
+Live Demo
+Future Improvements
+Author
+
+- Features
+
+- Core Functionality
+
+Student Registration with Name, Email, Mobile and Date of Birth
+Server-side validation for Name, Email and Mobile
+Edit and update student records
+Delete student records, with a confirmation dialog
+Search students by Name, Email or Mobile
+Export the student list to CSV
+Print the student list
+
+
+- Authentication
+- Signup with hashed passwords using bcrypt
+Login with session-based authentication
+Protected routes, so only logged-in users can access the dashboard
+- Logout functionality
+Show and hide password toggle on the Login and Signup forms
+
+
+- Database
+
+MongoDB Atlas cloud database integration via Mongoose
+Persistent storage, so records are not lost on server restart
+
+
+- UI and UX
+
+Fully responsive Bootstrap 5 UI
+Dashboard summary cards for Total Students, Active Records and Last Updated
+Toast notifications for Add, Update and Delete actions
+Confirmation dialog before deleting a student
+Serial number column in the student table
+Pagination with adjustable rows per page
+Dark and Light mode toggle, with the preference saved in the browser
+Professional footer
+Clean, modern interface
 
 ---
 
@@ -44,64 +81,42 @@ This project was developed during my **Full Stack Development Internship**.
 
 # 📂 Project Structure
 
-```
 FullStack_Internship_Project
-
-│
-
-├── Task1_2_3
-
-│ ├── server.js
-
-│ ├── package.json
-
-│ ├── views
-
-│ └── public
-
-│
-
-├── Task4
-
-│ └── index.html
-
-│
-
-├── Task5
-
-│ └── index.html
-
-│
-
+├── server.js
+├── package.json
+├── package-lock.json
+├── views
+│   ├── login.ejs
+│   ├── signup.ejs
+│   ├── index.ejs
+│   └── edit.ejs
+├── public
 └── README.md
-```
 
 ---
 
 # ⚙ Installation
 
-Clone Repository
+Clone the repository.
 
-```bash
-git clone https://github.com/kasimshah19/FullStack_Internship_Project.git
-```
+bashgit clone https://github.com/kasimshah19/FullStack_Internship_Project.git
 
-Go inside folder
+Move into the project folder.
 
-```bash
-cd FullStack_Internship_Project
-```
+bashcd FullStack_Internship_Project
 
-Install Packages
+Install dependencies.
 
-```bash
-npm install
-```
+bashnpm install
 
-Run Project
+Create a .env file, or set environment variables, with the following.
 
-```bash
-node server.js
+MONGO_URI=your_mongodb_atlas_connection_string
+SESSION_SECRET=your_session_secret
+
+Run the project.
+
+bashnode server.js
 ```
 
 ---
@@ -135,13 +150,14 @@ node server.js
 
 # 🎯 Future Improvements
 
-- MongoDB Database
-- Login System
-- Authentication
-- Admin Dashboard
-- Delete Student
-- Update Student
-- Search Student
+- OTP-based email or mobile verification during signup
+- Role-based access for Admin and Student
+- Forgot Password and Reset Password flow
+- Profile photo upload for students
+- Admin analytics dashboard with charts
+- Class or Batch grouping for students
+- Bulk import of students via CSV or Excel
+- Unit and integration testing
 
 ---
 
